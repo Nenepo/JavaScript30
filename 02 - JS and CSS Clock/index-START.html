@@ -7,19 +7,42 @@
 </head>
 <body>
 
-
+  <div class="time">
+    <p class="hour"></p>
+    <p>:</p>
+    <p class="min"></p>
+  </div>
     <div class="clock">
+    
       <div class="clock-face">
         <div class="hand hour-hand"></div>
         <div class="hand min-hand"></div>
         <div class="hand second-hand"></div>
+
+        <div class="number number1">1</div>
+        <div class="number number2">2</div>
+        <div class="number number3">3</div>
+        <div class="number number4">4</div>
+        <div class="number number5">5</div>
+        <div class="number number6">6</div>
+        <div class="number number7">7</div>
+        <div class="number number8">8</div>
+        <div class="number number9">9</div>
+        <div class="number number10">10</div>
+        <div class="number number11">11</div>
+        <div class="number number12">12</div>
       </div>
+     
     </div>
 
 
   <style>
+    /* change mouse symbol */
+    /* users should be able to generate colors */
     html {
-      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      /* background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5); */
+      background-color: yellow;
+      /* background-image: linear-gradient(to bottom right,yellow, orange); */
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -30,31 +53,38 @@
       margin: 0;
       font-size: 2rem;
       display: flex;
-      flex: 1;
+      flex-direction: column;
       min-height: 100vh;
       align-items: center;
+      
     }
 
+ .time p{
+display: inline;
+  font-size: 200px;
+ }
+ 
     .clock {
-      width: 30rem;
-      height: 30rem;
-      border: 20px solid white;
+       width: 30rem;
+     height: 30rem;
+       border: 20px solid white;
       border-radius: 50%;
-      margin: 50px auto;
+      /* margin: 300px auto 0 auto; */
       position: relative;
       padding: 2rem;
       box-shadow:
         0 0 0 4px rgba(0,0,0,0.1),
         inset 0 0 0 3px #EFEFEF,
         inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
+        0 0 10px rgba(0,0,0,0.2); 
     }
 
     .clock-face {
       position: relative;
       width: 100%;
       height: 100%;
-      transform: translateY(-3px); /* account for the height of the clock hands */
+      transform: translateY(-3px); 
+      /* account for the height of the clock hands */
     }
 
     .hand {
@@ -62,14 +92,70 @@
       height: 6px;
       background: black;
       position: absolute;
-      top: 50%;
+      top: 55%;
+      transform: rotate(90deg);
+      transform-origin: 100%;
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(1);
     }
-
+    .second-hand {
+      /* Adjust the style for the second hand */
+      height: 2px;
+      background: red;
+    }
+    .number {
+      position: absolute;
+      font-size: 1.5rem;
+      font-weight: bold;
+      transform: translate(-50%, -50%);
+    }
+    .number.number1 { top: 10%; right: 17%; }
+    .number.number2 { top: 30%; right: 1%; }
+    .number.number3 { top: 55%; right: -2%; }
+    .number.number4 { bottom: 15%; right: 5%; }
+    .number.number5 { bottom:-3%; right: 25%; }
+    .number.number6 { bottom: -7%; right: 48%; }
+    .number.number7 { bottom: -1%; left: 25%; }
+    .number.number8 { bottom: 15%; left: 8%; }
+    .number.number9 {bottom: 40%; left: -1%; }
+    .number.number10 { top: 30%; left: 4%; }
+    .number.number11 { top: 10%; left: 20%; }
+    .number.number12 { top: 1%; right: 47%; }
   </style>
 
   <script>
+   const hourHand = document.querySelector('.hour-hand')
+   const minHand = document.querySelector('.min-hand')
+   const secHand = document.querySelector('.second-hand')
+
+   const hour = document.querySelector('.hour')
+   const min = document.querySelector('.min')
+  //  calculates the number of degrees we need to rotate each clock by
+ const calcDegree = (time, max) => ((time / max) * 360) + 90;
+
+//  we need time to run every second
+
+const seconds = () =>  {
+
+  const newDate = new Date()
+ 
+   const newHour = newDate.getHours();
+   const newMin  = newDate.getMinutes();
+   const newSecond = newDate.getSeconds();
+
+  const rotateHour =  calcDegree(newHour, 12);
+  const rotateMinute =  calcDegree(newMin, 60);
+  const rotateSecond =  calcDegree(newSecond, 60);
+
+  hourHand.style.transform = `rotate(${rotateHour}deg)`;
+ minHand.style.transform = `rotate(${rotateMinute}deg)`;
+  secHand.style.transform = `rotate(${rotateSecond}deg)`;
 
 
+ hour.textContent = `${newHour}`; 
+   min.textContent = `${newMin}`; 
+}
+setInterval(seconds, 1000)
   </script>
 </body>
 </html>

@@ -1,0 +1,16 @@
+used linear gradient 
+(lnk to w3schools)
+
+  background-image: linear-gradient(to direction, color1 , color2);
+
+  Linear Gradient - Diagonal
+
+  You can make a gradient diagonally by specifying both the horizontal and vertical starting positions.
+
+  Using Angles
+If you want more control over the direction of the gradient, you can define an angle, instead of the predefined directions (to bottom, to top, to right, to left, to bottom right, etc.).
+
+Syntax
+background-image: linear-gradient(angle, color-stop1, color-stop2);
+
+background-image: linear-gradient(-90deg, red, yellow);

@@ -59,6 +59,42 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+    function removeTransitioned (e){
+    if (e.propertyName !== 'transform') return; // Skip if it's not a transform
+
+    e.target.classList.remove('playing');
+}
+
+  function playSound (e){
+    const keyPress = e.keyCode; // Get the pressed key code
+
+const divElement = document.querySelector(`div[data-key = '${keyPress}']`)
+const audioElement = document.querySelector(`audio[data-key = '${keyPress}']`)
+
+if(!divElement && !audioElement) return;// If no audio or key element, return
+
+// Remove 'playing' class from all keys
+const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.classList.remove('playing'));
+
+    divElement.classList.add('playing');
+    audioElement.currentTime = 0;// Rewind to the start to allow for rapid key presses
+    audioElement.play()
+   
+  }
+
+ const keyList = document.querySelectorAll('.key')
+
+ keyList.forEach(key=>{ 
+key.addEventListener('transitioned', removeTransitioned)
+// key.addEventListener('click', playSound); 
+// for click functionality
+});
+
+
+ 
+window.addEventListener('keydown', playSound);
+
 
 </script>
 
