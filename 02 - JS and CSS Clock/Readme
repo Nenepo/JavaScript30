@@ -14,3 +14,4 @@ Syntax
 background-image: linear-gradient(angle, color-stop1, color-stop2);
 
 background-image: linear-gradient(-90deg, red, yellow);
+worked with time, and i was able to work with time 
