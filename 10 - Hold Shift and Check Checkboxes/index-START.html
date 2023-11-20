@@ -10,7 +10,8 @@
 
     html {
       font-family: sans-serif;
-      background: #ffc600;
+      /* background: #ffc600; */
+      background: #320f35;
     }
 
     .inbox {
@@ -30,7 +31,7 @@
     .item:last-child {
       border-bottom: 0;
     }
-
+/* when the input is checked do this */
     input:checked + p {
       background: #F9F9F9;
       text-decoration: line-through;
@@ -97,6 +98,46 @@
   </div>
 
 <script>
+ ( function () {
+    const checkBox = document.querySelectorAll('.inbox input[type= "checkbox"]');
+    checkBox.forEach((check,index) =>{
+  check.id = 'check' + index;
+});
+
+
+
+let lastSelected;
+
+const checkEvent = (e) => {
+if (lastSelected && e.shiftKey){
+  // this is the function context
+ 
+  this.checked = lastSelected.checked;
+  let startIndx, endIndx;
+  // 
+// Using a ternary operator & destructuring assignment
+// this.id > lastSelected.id ? [startIdx, endIdx] = [lastSelected.id, this.id] : [startIdx, endIdx] = [this.id, lastSelected.id];
+
+if(parseInt(this.id) > parseInt(lastSelected.id)){
+  startIndx = parseInt(lastSelected.id) ;
+ endIndx = parseInt(this.id);
+}else{
+  startIndx = parseInt(this.id);
+  endIndx = parseInt(lastSelected.id);
+}
+const middleInputs = Array.from(checkBox).slice(startIndx + 1, endIndx);
+middleInputs.forEach(checkBox =>{
+checkBox.checked = this.checked
+})
+};
+lastSelected = this;
+}
+checkBox.forEach(check => {
+  check.addEventListener('click' , checkEvent)
+});
+
+})();
+
 </script>
 </body>
 </html>

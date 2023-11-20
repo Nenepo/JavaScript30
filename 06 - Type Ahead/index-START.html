@@ -18,6 +18,70 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+let states = []
+
+const fetchData = async () => {
+  try{
+const response = await fetch (endpoint)
+states = await response.json()
+console.log(states); 
+
+
+  }catch(err){
+return ('try again', err)
+  }
+}
+fetchData()
+
+function findMatch(input, states) {
+  const regExp = new RegExp (input, 'gi');
+    return states.filter(place => { 
+
+    return place.state.match(regExp) || place.city.match(regExp)
+});
+
+
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  const searchInput = document.querySelector('.search')
+  const list = document.querySelector('.suggestions')
+function searchEvent () {
+ const input = searchInput.value
+const filteredData = findMatch(input, states)
+
+  const formattedData = filteredData.map(place => {
+    const regex = new RegExp(input, 'gi');
+
+  const highlightedCity =  place.city.replace(regex, `<span class="hl">${input}</span>`);
+  const highlightedState =  place.state.replace(regex, `<span class="hl">${input}</span>`);
+  const highlightedPopulation = numberWithCommas(place.population)
+
+
+  return `
+      <li>
+        <span class="name">${highlightedCity}, ${highlightedState}</span>
+        <span class="population">${highlightedPopulation}</span>
+      </li>
+    `;
+  
+})
+const result = formattedData.join('')
+
+
+list.innerHTML = result;
+}
+
+
+searchInput.addEventListener('keyup', searchEvent);
+searchInput.addEventListener('change', searchEvent);
+
+
+
 </script>
+
+
 </body>
 </html>

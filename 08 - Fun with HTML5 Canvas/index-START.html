@@ -8,6 +8,69 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  'useStrict';
+( function () {
+    const canvas = document.getElementById('draw')
+
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  const ctx = canvas.getContext('2d')
+  ctx.lineJoin = 'round'; //intersecting / connected lines will have a smooth join
+ ctx.lineCap = 'round'; // End of line will be smooth
+  
+
+
+  const mouse = { x:0 , y:0 }; 
+ const previous_mouse  = { ...mouse};
+  
+ 
+ let hue = 0
+  let lineWidth = true
+
+
+
+  const drawing = () => {
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+ 
+    ctx.beginPath();   // begin current path
+    ctx.moveTo(previous_mouse.x , previous_mouse.y) //starting point
+
+    ctx.lineTo(mouse.x, mouse.y); //Ending the path
+    ctx.closePath(); // create the path between the two points (from moveTo to lineTo)
+    cfx.stroke(); //draw the path on the canvas
+
+    // ternary operator to icrease/reset hue value
+    hue >= 360 ? 0 : hue++ 
+      // ternary operator to icrease/reset lineWidth
+      increaselineWidth  ?  ctx.lineWidth++ : ctx.lineWidth--
+    // width of the line increases within 1 -100
+    if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) increaselineWidth = !increaselineWidth
+  }
+// mousemove Event Handler function
+const setMouseLocation = (e) => {
+  //update values based on prev and curr mouse locations using array destructuring 
+  [previous_mouse.x, previous_mouse.y, mouse.x, mouse.y] = [ mouse.x, mouse.y,e.offsetX, e.offsetY];
+}
+//an obj with key/value pairs corresponding with the name of the action and the function we want for the action 
+const quick = {
+  add: () => canvas.addEventListener('mousemove', drawing),
+  rem: () => canvas.removeEventListener('mousemove', drawing) 
+}
+
+// Array of event + eventHandler obj to iterate over and use as arguments for adding event listeners to the canvas variable
+const events = [
+  {e: 'mousemove', h: setMouseLocation},
+  {e: 'mousedown', h:quick.add},
+  {e: 'mouseup',   h:quick.rem},
+  {e: 'mouseout',  h:quick.add},
+  
+];
+// attach event listners 
+events.forEach(({e,h}) => {
+  canvas.addEventListener(e,h);
+})
+ })();//immediately invoke the anonymous function
 </script>
 
 <style>
