@@ -7,6 +7,32 @@
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+      (function (){
+
+   
+      let keyPressed = [];
+      let secretCode = 'helloplayer'
+// In JavaScript, strings are iterable objects, meaning we can do a lot of the same things with a string that we could do with an array. Try logging out the value of your secret code at the index matching the array's length (which should currently be 0). You should get the first character of your secret code. Knowing this, we can check to see if the key property of the event matches our secret code at the current array's length. If it does, we'll push that key value into our array. Otherwise, empty the array:
+      window.addEventListener('keyup' , (e) => {
+        console.log(e.key);
+        // secretCode[pressedKeys.length] === e.key ? pressedKeys.push(e.key) : pressedKeys.length = 0;
+       if(secretCode[keyPressed.length] === e.key.toLowerCase()  ) {
+        keyPressed.push(e.key.toLowerCase())
+       }else{
+       keyPressed.length = 0
+       };
+       
+// Join the values in the array and compare it with your secret code: if they match, log out a statement, call the cornify_add() function, and clear out the array:
+       if(keyPressed.join('') === secretCode){
+       
+        console.log('hello')
+        cornify_add();
+        keyPressed.length = 0
+       }
+       console.log(keyPressed)
+      });
+    })();
+    </script>
   </body>
 </html>
